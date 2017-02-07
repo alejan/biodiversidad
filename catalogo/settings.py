@@ -25,7 +25,7 @@ SECRET_KEY = 's$4_ke(hu6zm8(bzb!sg#9e34txiz%^97kl2^_6k5qzccvmxb#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'bio-catalogo.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'especie',
 ]
 
 MIDDLEWARE = [
@@ -73,6 +74,9 @@ WSGI_APPLICATION = 'catalogo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 db_from_env = dj_database_url.config(conn_max_age=500)
+
+
+
 
 DATABASES = {
     'default': {
