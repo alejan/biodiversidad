@@ -7,6 +7,9 @@ from django.forms import ModelForm
 
 
 class Categoria(models.Model):
+    def __unicode__(self):
+        return 'Categoria: ' + self.nombre
+
     nombre = models.CharField(max_length=50)
 
 
@@ -17,6 +20,7 @@ class Especie(models.Model):
     taxonomia = models.CharField(max_length=50)
     descripcion = models.TextField
     foto = models.ImageField(upload_to='avatar', null=True)
+
 
 class Comentario(models.Model):
     especie = models.ForeignKey(Especie)
