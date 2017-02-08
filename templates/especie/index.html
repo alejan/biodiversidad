@@ -3,7 +3,6 @@
 {% bootstrap_javascript jquery=1 %}
 {% bootstrap_messages %}
 
-{% load staticfiles %}
 <style>
     body {
         padding-top: 50px;
@@ -76,7 +75,7 @@ body {padding-top:50px;}
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <div class="box">
                         <div class="box-icon">
-                            <span class="fa fa-4x fa-html5"></span>
+                            <img src="/{{ especie.foto.name  }}" class="img-circle" alt="No disponible" height="100px" width="100px"/>
                         </div>
                         <div class="info">
                             <h4 class="text-center">{{ especie.nombre_general }}</h4>
@@ -85,6 +84,7 @@ body {padding-top:50px;}
                                 <span class="badge" style="float: right">{{ especie.categoria.nombre }}</span>
                             </div>
                             <p><span class="label label-info">{{ especie.taxonomia }}</span> {{ especie.descripcion }}</p>
+
                         </div>
                     </div>
                 </div>
