@@ -2,6 +2,7 @@
 {% if especies %}
 <ul>
     {% for especie in especies %}
+        <li>{{ especie.nombre_general }}</li>
     {% endfor %}
 </ul>
 {% else %}
