@@ -15,11 +15,11 @@ class Categoria(models.Model):
 
 class Especie(models.Model):
     def __unicode__(self):
-        return self.nombre_gen
+        return self.nombre_general
 
     categoria = models.ForeignKey(Categoria)
-    nombre_general = models.CharField(max_length=50)
-    nombre_cientifico = models.CharField(max_length=50)
+    nombre_general = models.CharField(max_length=100)
+    nombre_cientifico = models.CharField(max_length=100)
     taxonomia = models.CharField(max_length=50)
     descripcion = models.TextField
     foto = models.ImageField(upload_to='avatar', null=True)
@@ -27,7 +27,7 @@ class Especie(models.Model):
 
 class Comentario(models.Model):
     def __unicode__(self):
-        return self.especie.nombre_gen + ' ' + self.correo + ' ' + self.comentario
+        return self.especie.nombre_general + ' ' + self.correo + ' ' + self.comentario
 
     especie = models.ForeignKey(Especie)
     comentario = models.TextField
