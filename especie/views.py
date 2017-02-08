@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from django.views import generic
 
-# Create your views here.
+from .models import Especie
+
+
+class IndexView(generic.ListView):
+    template_name = "especie/index.html"
+    context_object_name = "especies"
+    model = Especie
+

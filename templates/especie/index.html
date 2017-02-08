@@ -1,0 +1,9 @@
+{% load staticfiles %}
+{% if especies %}
+<ul>
+    {% for especie in especies %}
+    {% endfor %}
+</ul>
+{% else %}
+<p>No se encontraron Especies.</p>
+{% endif %}
