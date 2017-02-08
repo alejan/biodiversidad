@@ -19,7 +19,7 @@ class Especie(models.Model):
     nombre_cientifico = models.CharField(max_length=100)
     taxonomia = models.CharField(max_length=50)
     descripcion = models.TextField()
-    foto = models.ImageField(upload_to='avatar', null=True)
+    foto = models.ImageField(upload_to='especies', null=True)
 
     def __unicode__(self):
         return self.nombre_general
