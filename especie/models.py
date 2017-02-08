@@ -18,8 +18,8 @@ class Especie(models.Model):
         return self.nombre_gen
 
     categoria = models.ForeignKey(Categoria)
-    nombre_gen = models.CharField(max_length=50)
-    nombre_cien = models.CharField(max_length=50)
+    nombre_general = models.CharField(max_length=50)
+    nombre_cientifico = models.CharField(max_length=50)
     taxonomia = models.CharField(max_length=50)
     descripcion = models.TextField
     foto = models.ImageField(upload_to='avatar', null=True)
