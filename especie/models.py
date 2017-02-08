@@ -2,18 +2,21 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+
 # Create your models here.
-from django.forms import ModelForm
 
 
 class Categoria(models.Model):
     def __unicode__(self):
-        return 'Categoria: ' + self.nombre
+        return self.nombre
 
     nombre = models.CharField(max_length=50)
 
 
 class Especie(models.Model):
+    def __unicode__(self):
+        return self.nombre_gen
+
     categoria = models.ForeignKey(Categoria)
     nombre_gen = models.CharField(max_length=50)
     nombre_cien = models.CharField(max_length=50)
@@ -23,5 +26,9 @@ class Especie(models.Model):
 
 
 class Comentario(models.Model):
+    def __unicode__(self):
+        return self.especie.nombre_gen + ' ' + self.correo + ' ' + self.comentario
+
     especie = models.ForeignKey(Especie)
-    correo = models.CharField(max_length=50)
+    comentario = models.TextField
+    correo = models.EmailField
