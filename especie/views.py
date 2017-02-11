@@ -38,7 +38,7 @@ def register(request):
     context = {
         'form': form
     }
-    return render(request, 'especie/registro.html', context)
+    return render(request, 'especie/register.html', context)
 
 
 def index(request):
