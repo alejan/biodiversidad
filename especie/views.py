@@ -14,6 +14,10 @@ class IndexView(generic.ListView):
     context_object_name = "especies"
     model = Especie
 
+class Detalle(DetailView):
+    template_name = "especie/detalle.html"
+    context_object_name = "especie"
+    model = Especie
 
 def register(request):
     if request.method == 'POST':
