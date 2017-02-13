@@ -28,7 +28,7 @@ def registro(request):
         if form.is_valid():
             cleaned_data = form.cleaned_data
             username = cleaned_data.get('username')
-            first_name = cleaned_data.get('first_data')
+            first_name = cleaned_data.get('first_name')
             last_name = cleaned_data.get('last_name')
             password = cleaned_data.get('password')
             email = cleaned_data.get('email')

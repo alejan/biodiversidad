@@ -29,6 +29,8 @@
         <div id="navbarContent" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
+                    <li><a href="#">Mi perfil</a>
+                    </li>
                     <li>
                         <a href="{% url 'logout_user' %}"><span class="glyphicon glyphicon-off"
                                                                 aria-hidden="true"></span>
