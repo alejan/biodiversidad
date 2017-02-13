@@ -1,4 +1,8 @@
-
+{% if user.is_authenticated %}
+{% include 'especie/base.html' %}
+{% else %}
+{% include 'especie/base_visitor.html' %}
+{% endif %}
 {% load bootstrap3 %}
 {% bootstrap_css %}
 {% bootstrap_javascript jquery=1 %}
@@ -65,18 +69,7 @@ body {padding-top:50px;}
     transition: all 0.5s ease 0s;
 }
 </style>
-<div class="collapse navbar-collapse" id="topNavBar">
-    <ul class="nav navbar-nav">
-        <li>
-            <a class="navbar-brand" href="#">Biodiversidad</a>
-        </li>
-        <li>
-            <a href="{% url 'especie.views.logout_user' %}">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>Logout&nbsp;
-            </a>
-        </li>
-    </ul>
-</div>
+
 <div class="container" role="main">
     {% if especies %}
     <h1>Catálogo de Especies en nuestra Reserva</h1>
@@ -95,7 +88,6 @@ body {padding-top:50px;}
                                 <span class="badge" style="float: right">{{ especie.categoria.nombre }}</span>
                             </div>
                             <p><span class="label label-info">{{ especie.taxonomia }}</span> {{ especie.descripcion }}</p>
-
                         </div>
                     </div>
                 </div>

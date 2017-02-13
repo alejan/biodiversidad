@@ -26,7 +26,7 @@ SECRET_KEY = 's$4_ke(hu6zm8(bzb!sg#9e34txiz%^97kl2^_6k5qzccvmxb#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'bio-catalogo.herokuapp.com']
+ALLOWED_HOSTS = [u'127.0.0.1']
 
 # Application definition
 

@@ -49,7 +49,6 @@ def login_user(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
-        especies = Especie.objects
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
@@ -58,7 +57,7 @@ def login_user(request):
             else:
                 return render(request, 'especie/login.html', {'error_message': 'Your account has been disabled'})
         else:
-            render(request, 'especie/login.html', {'error_message': 'Invalid login'})
+            return render(request, 'especie/login.html', {'error_message': 'Invalid login'})
     return render(request, 'especie/login.html')
 
 
