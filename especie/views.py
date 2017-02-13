@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, request
 from django.shortcuts import render
 from django.views import generic
+from django.views.generic import DetailView
 
 from especie.forms import UserForm
 from .models import Especie
