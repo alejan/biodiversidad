@@ -6,3 +6,4 @@ db.sqlite3
 /pip-selfcheck.json
 /.gitignore
 *.sqlite3a
+/static/*
