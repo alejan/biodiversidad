@@ -22,7 +22,7 @@ class Detalle(DetailView):
     model = Especie
 
 
-def register(request):
+def registro(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():

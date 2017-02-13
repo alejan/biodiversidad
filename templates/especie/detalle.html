@@ -1,19 +1,6 @@
-{% load static %}
+{% include 'especie/base.html' %}
 
-{% load bootstrap3 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery=1 %}
-{% bootstrap_messages %}
-
-<link rel="stylesheet" type="text/css" href="{% static 'especie/style.css' %}" />
-
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Biodiversidad</a>
-        </div>
-    </div>
-</nav>
+{% block body %}
 <div class="container" role="main">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="box">
@@ -32,3 +19,4 @@
         </div>
     </div>
 </div>
+{% endblock %}

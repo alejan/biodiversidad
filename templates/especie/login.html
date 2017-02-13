@@ -1,17 +1,12 @@
-{% if user.is_authenticated %}
-{% include 'base.html' %}
-{% else %}
-{% include 'especie/base_visitor.html' %}
-{% endif %}
+{% include 'especie/base.html' %}
+
 {% block title %}Log In{% endblock %}
 {% block login_active %}active{% endblock %}
 
 {% block body %}
-<div class="container-fluid">
+<div class="container">
 
-    <div class="row">
-        <div class="col-sm-12 col-md-6">
-            <div class="panel panel-default">
+            <div class="panel panel-default" style="margin: 0 auto; width: 500px">
                 <div class="panel-body">
                     <h3>Log In</h3>
                     {% if error_message %}
@@ -43,11 +38,9 @@
                     </form>
                 </div>
                 <div class="panel-footer">
-                    Don't have an account? <a href="{% url 'register' %}">Click here</a> to register.
+                    Don't have an account? <a href="{% url 'registro' %}">Click here</a> to register.
                 </div>
             </div>
-        </div>
-    </div>
 
 </div>
 

@@ -1,15 +1,14 @@
-{% extends 'especie/base_visitor.html' %}
+{% include 'especie/base.html' %}
 {% block title %}Register{% endblock %}
 {% block register_active %}active{% endblock %}
 
 {% block body %}
-<div class="container-fluid">
+<div class="container" role="main">
 
-    <div class="row">
-        <div class="col-sm-12 col-md-6">
-            <div class="panel panel-default">
+
+            <div class="panel panel-default" style="margin: 0 auto; width: 500px">
                 <div class="panel-body">
-                    <h3>Register for an Account</h3>
+                    <h3>Registrarse</h3>
                     {% if error_message %}
                         <p><strong>{{ error_message }}</strong></p>
                     {% endif %}
@@ -18,17 +17,15 @@
                         {% include 'especie/form_template.html' %}
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-success">Submit</button>
+                                <button type="submit" class="btn btn-success">Enviar</button>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="panel-footer">
-                    Already have an account? <a href="{% url 'login_user' %}">Click here</a> to log in.
+                    Usuario registrado? <a href="{% url 'login_user' %}">Click aca</a> para ingresar.
                 </div>
             </div>
-        </div>
-    </div>
 
 </div>
 
