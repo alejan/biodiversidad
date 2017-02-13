@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, request
 from django.shortcuts import render
 from django.views import generic
+from django.views.generic import DetailView
 
 from especie.forms import UserForm
 from .models import Especie
@@ -12,6 +13,12 @@ from .models import Especie
 class IndexView(generic.ListView):
     template_name = "especie/index.html"
     context_object_name = "especies"
+    model = Especie
+
+
+class Detalle(DetailView):
+    template_name = "especie/detalle.html"
+    context_object_name = "especie"
     model = Especie
 
 
@@ -38,7 +45,7 @@ def register(request):
     context = {
         'form': form
     }
-    return render(request, 'especie/register.html', context)
+    return render(request, 'especie/registro.html', context)
 
 
 def index(request):
@@ -49,6 +56,7 @@ def login_user(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
+        especies = Especie.objects
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
@@ -57,10 +65,8 @@ def login_user(request):
             else:
                 return render(request, 'especie/login.html', {'error_message': 'Your account has been disabled'})
         else:
-            return render(request, 'especie/login.html', {'error_message': 'Invalid login'})
+            render(request, 'especie/login.html', {'error_message': 'Invalid login'})
     return render(request, 'especie/login.html')
-
-
 
 
 def logout_user(request):
