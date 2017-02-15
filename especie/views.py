@@ -1,12 +1,13 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponseRedirect, request
 from django.shortcuts import render
 from django.views import generic
 from django.views.generic import DetailView
+from django.views.generic.edit import UpdateView
 
-from especie.forms import UserForm
+from especie.forms import UserForm, UpdateProfile
 from .models import Especie
 
 
@@ -39,13 +40,27 @@ def registro(request):
             user_model.email = email
             user_model.save()
 
-            return HttpResponseRedirect(reverse('especie:index'))
+            return HttpResponseRedirect(reverse('index'))
     else:
         form = UserForm()
     context = {
         'form': form
     }
     return render(request, 'especie/registro.html', context)
+
+
+def perfil(request):
+    if request.method == 'POST':
+        form = UpdateProfile(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('perfil'))
+    else:
+        form = UpdateProfile(instance=request.user)
+    context = {
+        'form': form
+    }
+    return render(request, 'especie/perfil.html', context)
 
 
 def index(request):
