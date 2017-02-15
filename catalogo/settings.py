@@ -26,7 +26,7 @@ SECRET_KEY = 's$4_ke(hu6zm8(bzb!sg#9e34txiz%^97kl2^_6k5qzccvmxb#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'bio-catalogo.herokuapp.com','localhost']
+ALLOWED_HOSTS = [u'bio-catalogo.herokuapp.com', 'localhost', '127.0.0.1']
 
 # Application definition
 
@@ -47,6 +47,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -130,7 +131,7 @@ STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-("especie", os.path.join(BASE_DIR, 'especie/style')),
+    ("especie", os.path.join(BASE_DIR, 'especie/style')),
 )
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'

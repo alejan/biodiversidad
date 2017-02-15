@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}BIO{% endblock %}</title>
+    {% load static %}
+
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery=1 %}
+    {% bootstrap_messages %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'especie/style.css' %}"/>
+
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <!-- Header -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarContent"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'index' %}">Biodiversidad</a>
+        </div>
+        <div id="navbarContent" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'perfil' %}">Mi perfil</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'logout_user' %}"><span class="glyphicon glyphicon-off"
+                                                                aria-hidden="true"></span>
+                            Logout</a>
+                    </li>
+                {% else %}
+                    <li class="{% block register_active %}{% endblock %}"><a href="{% url 'registro' %}">Registro</a>
+                    </li>
+                    <li class="{% block login_active %}{% endblock %}"><a href="{% url 'login_user' %}">Log In</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+{% block body %}
+{% endblock %}
+</body>
+</html>

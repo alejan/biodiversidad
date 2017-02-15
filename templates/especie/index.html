@@ -1,42 +1,32 @@
-{% load static %}
+{% include 'especie/base.html' %}
 
-{% load bootstrap3 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery=1 %}
-{% bootstrap_messages %}
-
-
-<link rel="stylesheet" type="text/css" href="{% static 'especie/style.css' %}" />
-
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Biodiversidad</a>
-        </div>
-    </div>
-</nav>
 <div class="container" role="main">
     {% if especies %}
-    <h1>Catálogo de Especies en nuestra Reserva</h1>
+        <h1>Catálogo de Especies en nuestra Reserva</h1>
+
         <div class="row">
             {% for especie in especies %}
                 <a href="detalle/{{ especie.id }}">
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    <div class="box">
-                        <div class="info">
-                            <p>
-                                <span class="label label-info">{{ especie.taxonomia }}</span>
-                                {{ especie.id }} {{ especie.nombre_general }}
-                                <span class="badge" style="float: right">{{ especie.categoria.nombre }}</span>
-                            </p>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="box">
+                            <div class="box-icon">
+                                <img src="{{ MEDIA_URL }}{{ especie.foto.name }}" class="img-circle" alt="No disponible"
+                                     height="100px" width="100px"/>
+                            </div>
+                            <div class="info">
+                                <p>
+                                    <span class="label label-info">{{ especie.taxonomia }}</span>
+                                    {{ especie.id }} {{ especie.nombre_general }}
+                                    <span class="badge" style="float: right">{{ especie.categoria.nombre }}</span>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
                 </a>
             {% endfor %}
 
         </div>
     {% else %}
-    <p>No se encontraron Especies.</p>
+        <h4>No se encontraron Especies.</h4>
     {% endif %}
 </div>
