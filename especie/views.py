@@ -7,7 +7,7 @@ from django.views import generic
 from django.views.generic import DetailView
 from django.views.generic.edit import UpdateView
 
-from especie.forms import UserForm, UpdateProfile
+from especie.forms import UserForm, UpdateProfile, PerfilForm
 from .models import Especie
 
 
@@ -26,6 +26,7 @@ class Detalle(DetailView):
 def registro(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
+        form_perfil = PerfilForm(request.POST)
         if form.is_valid():
             cleaned_data = form.cleaned_data
             username = cleaned_data.get('username')
@@ -43,8 +44,10 @@ def registro(request):
             return HttpResponseRedirect(reverse('index'))
     else:
         form = UserForm()
+        form_perfil = PerfilForm()
     context = {
-        'form': form
+        'form': form,
+        'form_perfil': form_perfil
     }
     return render(request, 'especie/registro.html', context)
 
@@ -52,13 +55,16 @@ def registro(request):
 def perfil(request):
     if request.method == 'POST':
         form = UpdateProfile(request.POST, instance=request.user)
+        form_perfil = PerfilForm(request.POST, instance=request.user.perfil)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('perfil'))
     else:
         form = UpdateProfile(instance=request.user)
+        form_perfil = PerfilForm(instance=request.user.perfil)
     context = {
-        'form': form
+        'form': form,
+        'form_perfil': form_perfil
     }
     return render(request, 'especie/perfil.html', context)
 
