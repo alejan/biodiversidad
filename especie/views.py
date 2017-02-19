@@ -1,8 +1,9 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.http.response import HttpResponseRedirectBase
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import generic
 
 from especie.forms import UserForm, UpdateProfile, PerfilForm, ComentarioForm
@@ -17,12 +18,21 @@ class IndexView(generic.ListView):
 
 def detalle_especie(request, id_especie):
     especie = Especie.objects.get(pk=id_especie)
-    comentarios = Comentario.objects.filter(especie_id=id_especie)
+    if request.method == 'POST':
+        form = ComentarioForm(request.POST)
+        if form.is_valid():
+            clean_data = form.cleaned_data
+            new_comment = Comentario(especie=especie, comentario=clean_data.get('comentario'),
+                                     correo=clean_data.get("correo"))
+            new_comment.save()
+            return redirect('detalle', id_especie=id_especie)
+    else:
+        form = ComentarioForm()
 
     context = {
         'especie': especie,
-        'comentarios': comentarios,
-        'form_comentario': ComentarioForm()
+        'comentarios': Comentario.objects.filter(especie_id=id_especie).order_by('-id'),
+        'form_comentario': form
     }
 
     return render(request, 'especie/detalle.html', context)
