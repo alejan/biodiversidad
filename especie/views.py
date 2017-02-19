@@ -1,14 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.urls import reverse
-from django.http import HttpResponseRedirect, request
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import generic
-from django.views.generic import DetailView
-from django.views.generic.edit import UpdateView
 
-from especie.forms import UserForm, UpdateProfile, PerfilForm
-from .models import Especie
+from especie.forms import UserForm, UpdateProfile, PerfilForm, ComentarioForm
+from .models import Especie, Comentario, Perfil
 
 
 class IndexView(generic.ListView):
@@ -17,10 +15,17 @@ class IndexView(generic.ListView):
     model = Especie
 
 
-class Detalle(DetailView):
-    template_name = "especie/detalle.html"
-    context_object_name = "especie"
-    model = Especie
+def detalle_especie(request, id_especie):
+    especie = Especie.objects.get(pk=id_especie)
+    comentarios = Comentario.objects.filter(especie_id=id_especie)
+
+    context = {
+        'especie': especie,
+        'comentarios': comentarios,
+        'form_comentario': ComentarioForm()
+    }
+
+    return render(request, 'especie/detalle.html', context)
 
 
 def registro(request):
@@ -77,8 +82,8 @@ def login_user(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
-        especies = Especie.objects
         user = authenticate(username=username, password=password)
+        Perfil.objects.get_or_create(user=user)
         if user is not None:
             if user.is_active:
                 login(request, user)

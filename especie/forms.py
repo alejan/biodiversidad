@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from especie.models import Perfil
+from especie.models import Perfil, Comentario
 
 
 class UserForm(forms.ModelForm):
@@ -30,3 +30,11 @@ class PerfilForm(forms.ModelForm):
         model = Perfil
         fields = ('foto', 'pais', 'ciudad', 'bio')
 
+
+class ComentarioForm(forms.ModelForm):
+    class Meta:
+        model = Comentario
+        fields = ('correo', 'comentario')
+        widgets = {
+            'comentario': forms.Textarea(attrs={'rows': 3}),
+        }

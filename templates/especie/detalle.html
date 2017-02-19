@@ -1,23 +1,53 @@
 {% include 'especie/base.html' %}
+{% load bootstrap3 %}
 
 {% block body %}
     <div class="container" role="main">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="box">
-                <div class="box-icon">
-                    <img src="{{ MEDIA_URL }}{{ especie.foto.name }}" class="img-circle" alt="No disponible"
-                         height="100px" width="100px"/>
-                </div>
-                <div class="info">
-                    <h4 class="text-center">{{ especie.id }} {{ especie.nombre_general }}</h4>
-                    <div style="text-align: left">
-                        <span>{{ especie.nombre_cientifico }}</span>
-                        <span class="badge" style="float: right">{{ especie.categoria.nombre }}</span>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="box">
+                    <div class="box-icon">
+                        <img src="{{ MEDIA_URL }}{{ especie.foto.name }}" class="img-circle" alt="No disponible"
+                             height="100px" width="100px"/>
                     </div>
-                    <p><span class="label label-info">{{ especie.taxonomia }}</span> {{ especie.descripcion }}</p>
+                    <div class="info">
+                        <h4 class="text-center">{{ especie.nombre_general }}</h4>
+                        <div style="text-align: left">
+                            <span>{{ especie.nombre_cientifico }}</span>
+                            <span class="badge" style="float: right">{{ especie.categoria.nombre }}</span>
+                        </div>
+                        <p><span class="label label-info">{{ especie.taxonomia }}</span> {{ especie.descripcion }}</p>
 
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="row top15">
+            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-centered">
+                <h4>Comentarios</h4>
+                <form action="/url/to/submit/" method="post" class="form">
+                    {% csrf_token %}
+                    {% bootstrap_form form_comentario show_label=false %}
+                    {% buttons %}
+                        <button type="submit" class="btn btn-success pull-right">
+                            {% bootstrap_icon "comment" %} Comentar
+                        </button>
+                    {% endbuttons %}
+                </form>
+            </div>
+        </div>
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-centered">
+            {% for comentario in comentarios %}
+                <blockquote>
+                    <p>{{ comentario.comentario }}</p>
+                    <footer>
+                        <cites>{{ comentario.correo }}</cites>
+                    </footer>
+                </blockquote>
+            {% endfor %}
+        </div>
+    </div>
+
+
     </div>
 {% endblock %}
