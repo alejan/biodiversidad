@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.db import transaction
 from django.http.response import HttpResponseRedirectBase
 from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -38,11 +39,12 @@ def detalle_especie(request, id_especie):
     return render(request, 'especie/detalle.html', context)
 
 
+@transaction.atomic
 def registro(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
-        form_perfil = PerfilForm(request.POST)
-        if form.is_valid():
+        form_perfil = PerfilForm(request.POST, request.FILES)
+        if form.is_valid() and form_perfil.is_valid():
             cleaned_data = form.cleaned_data
             username = cleaned_data.get('username')
             first_name = cleaned_data.get('first_name')
@@ -56,10 +58,17 @@ def registro(request):
             user_model.email = email
             user_model.save()
 
+            perfil_model = user_model.perfil
+            perfil_model.foto = form_perfil.cleaned_data['foto']
+            perfil_model.pais = form_perfil.cleaned_data['pais']
+            perfil_model.ciudad = form_perfil.cleaned_data['ciudad']
+            perfil_model.bio = form_perfil.cleaned_data['bio']
+            perfil_model.save()
             return HttpResponseRedirect(reverse('index'))
     else:
         form = UserForm()
         form_perfil = PerfilForm()
+
     context = {
         'form': form,
         'form_perfil': form_perfil
