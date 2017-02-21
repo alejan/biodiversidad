@@ -7,14 +7,24 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import generic
 
-from especie.forms import UserForm, UpdateProfile, PerfilForm, ComentarioForm
-from .models import Especie, Comentario, Perfil
+from especie.forms import UserForm, UpdateProfile, PerfilForm, ComentarioForm, CategoriaForm
+from .models import Especie, Comentario, Perfil, Categoria
 
 
-class IndexView(generic.ListView):
-    template_name = "especie/index.html"
-    context_object_name = "especies"
-    model = Especie
+def listado_especies(request, nombre_categoria=None):
+    categoria = Categoria.objects.filter(nombre=nombre_categoria).first() if nombre_categoria else None
+
+    if categoria:
+        especies = Especie.objects.filter(categoria=categoria)
+        form = CategoriaForm(initial={'categoria': categoria})
+    else:
+        especies = Especie.objects.all()
+        form = CategoriaForm()
+
+    return render(request, 'especie/index.html', {
+        'especies': especies,
+        'form': form,
+    })
 
 
 def detalle_especie(request, id_especie):

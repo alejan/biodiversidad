@@ -1,32 +1,51 @@
 {% include 'especie/base.html' %}
+{% load bootstrap3 %}
 
-<div class="container" role="main">
-    {% if especies %}
+{% block body %}
+    <div class="container" role="main">
+
         <h1>Catálogo de Especies en nuestra Reserva</h1>
-
         <div class="row">
-            {% for especie in especies %}
-                <a href="detalle/{{ especie.id }}">
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <div class="box">
-                            <div class="box-icon">
-                                <img src="{{ MEDIA_URL }}{{ especie.foto.name }}" class="img-circle" alt="No disponible"
-                                     height="100px" width="100px"/>
-                            </div>
-                            <div class="info">
-                                <p>
-                                    <span class="label label-info">{{ especie.taxonomia }}</span>
-                                    {{ especie.id }} {{ especie.nombre_general }}
-                                    <span class="badge" style="float: right">{{ especie.categoria.nombre }}</span>
-                                </p>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <form id="form_categoria" role="form" action="" method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form layout='horizontal' %}
+                </form>
+                <script>
+                    $('#id_categoria').change(function () {
+                        $(location).attr('href', '{% url 'index'%}' + $('#id_categoria').val())
+                    })
+                </script>
+            </div>
+        </div>
+        {% if especies %}
+            <div class="row">
+                {% for especie in especies %}
+                    <a href="{% url 'detalle' id_especie=especie.id %}">
+                        <div class=" col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                            <div class="box">
+                                <div class="box-icon">
+                                    <img src="{{ MEDIA_URL }}{{ especie.foto.name }}" class="img-circle"
+                                         alt="No disponible"
+                                         height="100px" width="100px"/>
+                                </div>
+                                <div class="info">
+                                    <p>
+                                        <span class="label label-info">{{ especie.taxonomia }}</span>
+                                        {{ especie.id }} {{ especie.nombre_general }}
+                                        <span class="badge" style="float: right">{{ especie.categoria.nombre }}</span>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>
-            {% endfor %}
+                    </a>
+                {% endfor %}
 
-        </div>
-    {% else %}
-        <h4>No se encontraron Especies.</h4>
-    {% endif %}
-</div>
+            </div>
+        {% else %}
+            <div class="row">
+                <h4>No se encontraron Especies.</h4>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

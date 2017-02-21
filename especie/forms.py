@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from especie.models import Perfil, Comentario
+from especie.models import Perfil, Comentario, Categoria
 
 
 class UserForm(forms.ModelForm):
@@ -38,3 +38,11 @@ class ComentarioForm(forms.ModelForm):
         widgets = {
             'comentario': forms.Textarea(attrs={'rows': 3}),
         }
+
+
+class CategoriaForm(forms.Form):
+    categoria = forms.ModelChoiceField(
+        queryset=Categoria.objects.all().order_by('nombre'),
+        required=False,
+        to_field_name="nombre"
+    )
