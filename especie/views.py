@@ -90,8 +90,9 @@ def perfil(request):
     if request.method == 'POST':
         form = UpdateProfile(request.POST, instance=request.user)
         form_perfil = PerfilForm(request.POST, instance=request.user.perfil)
-        if form.is_valid():
+        if form.is_valid() and form_perfil.is_valid():
             form.save()
+            form_perfil.save()
             return HttpResponseRedirect(reverse('perfil'))
     else:
         form = UpdateProfile(instance=request.user)
