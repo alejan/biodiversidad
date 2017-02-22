@@ -13,7 +13,7 @@
                 </form>
                 <script>
                     $('#id_categoria').change(function () {
-                        $(location).attr('href', '{% url 'index'%}' + $('#id_categoria').val())
+                        $(location).attr('href', '/especies/categoria/' + $('#id_categoria').val())
                     })
                 </script>
             </div>
