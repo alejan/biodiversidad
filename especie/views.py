@@ -1,11 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core import serializers
 from django.db import transaction
-from django.http.response import HttpResponseRedirectBase
-from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
-from django.views import generic
+from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from especie.forms import UserForm, UpdateProfile, PerfilForm, ComentarioForm, CategoriaForm
 from .models import Especie, Comentario, Perfil, Categoria
@@ -25,6 +26,18 @@ def listado_especies(request, nombre_categoria=None):
         'especies': especies,
         'form': form,
     })
+
+
+@csrf_exempt
+def listado_especies_rest(request, nombre_categoria=None):
+    categoria = Categoria.objects.filter(nombre=nombre_categoria).first() if nombre_categoria else None
+
+    if categoria:
+        especies = Especie.objects.filter(categoria=categoria)
+    else:
+        especies = Especie.objects.all()
+
+    return HttpResponse(serializers.serialize("json", especies))
 
 
 def detalle_especie(request, id_especie):
