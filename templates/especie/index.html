@@ -2,6 +2,15 @@
 {% load bootstrap3 %}
 
 {% block body %}
+    <script>
+        $(function () {
+
+            var url_base = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
+            url_base = url_base+"{% url 'especies_por_categorias' 1 %}".replace("1/","")
+            console.log(url_base)
+
+        });
+    </script>
     <div class="container" role="main">
 
         <h1>Catálogo de Especies en nuestra Reserva</h1>
@@ -17,6 +26,8 @@
                     })
                 </script>
             </div>
+        </div>
+        <div id="especies-container" class="row">
         </div>
         {% if especies %}
             <div class="row">
