@@ -1,62 +1,83 @@
 {% include 'especie/base.html' %}
 {% load bootstrap3 %}
-
+{% load static %}
+<script type="text/javascript" src="{% static 'common/js/jquery.tmpl.1.1.1.js' %}"></script>
 {% block body %}
     <script>
+        var categorias;
+
+        var url_base = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+        var url_especies = url_base + "{% url 'especies_por_categorias' 1 %}".replace("1/", "")
+        var url_categorias = url_base + "{% url 'categorias' %}"
+
+        var template =
+            '<a href="detalle/#{id}">                                                                  ' +
+            '    <div class=" col-xs-12 col-sm-6 col-md-6 col-lg-6">                                   ' +
+            '        <div class="box">                                                                 ' +
+            '            <div class="box-icon">                                                        ' +
+            '                <img src="{{ MEDIA_URL }}#{especie-foto}" class="img-circle"              ' +
+            '                     alt="No disponible"                                                  ' +
+            '                     height="100px" width="100px"/>                                       ' +
+            '            </div>                                                                        ' +
+            '            <div class="info">                                                            ' +
+            '                <p>                                                                       ' +
+            '                    <span class="label label-info">#{especie-taxonomia}</span>            ' +
+            '                    #{especie-nombre_general}                                             ' +
+            '                    <span class="badge" style="float: right">#{especie-categoria}</span>  ' +
+            '                </p>                                                                      ' +
+            '            </div>                                                                        ' +
+            '        </div>                                                                            ' +
+            '    </div>                                                                                ' +
+            '</a>                                                                                      ';
+
         $(function () {
-
-            var url_base = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
-            url_base = url_base+"{% url 'especies_por_categorias' 1 %}".replace("1/","")
-            console.log(url_base)
-
+            $.getJSON(url_categorias, function (data) {
+                categorias = data
+            })
+            fetch_especies("1")
         });
+
+        function fetch_especies(categoria) {
+
+            $.getJSON(url_especies + categoria, function (data) {
+                //quick end
+                if (data.length == 0) {
+                    $("#especies-container").html('<h4>No se encontraron Especies.</h4>');
+                    return
+                }
+
+                var items = []
+                $.each(data, function (key, val) {
+                    var especie = val["fields"];
+
+
+                    items.push($.tmpl(template,
+                        {
+                            'id': val["pk"],
+                            'especie-foto': especie["foto"],
+                            'especie-taxonomia': especie["taxonomia"],
+                            'especie-nombre_general': especie["nombre_general"],
+                            'especie-categoria': categorias[especie["categoria"]]
+                        }))
+                });
+                $("#especies-container").html(items.join(""));
+            });
+        }
     </script>
     <div class="container" role="main">
 
         <h1>Catálogo de Especies en nuestra Reserva</h1>
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <form id="form_categoria" role="form" action="" method="post">
-                    {% csrf_token %}
-                    {% bootstrap_form form layout='horizontal' %}
-                </form>
+                {% bootstrap_form form layout='horizontal' %}
                 <script>
                     $('#id_categoria').change(function () {
-                        $(location).attr('href', '/especies/categoria/' + $('#id_categoria').val())
+                        fetch_especies($('#id_categoria').val())
                     })
                 </script>
             </div>
         </div>
         <div id="especies-container" class="row">
         </div>
-        {% if especies %}
-            <div class="row">
-                {% for especie in especies %}
-                    <a href="{% url 'detalle' id_especie=especie.id %}">
-                        <div class=" col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                            <div class="box">
-                                <div class="box-icon">
-                                    <img src="{{ MEDIA_URL }}{{ especie.foto.name }}" class="img-circle"
-                                         alt="No disponible"
-                                         height="100px" width="100px"/>
-                                </div>
-                                <div class="info">
-                                    <p>
-                                        <span class="label label-info">{{ especie.taxonomia }}</span>
-                                        {{ especie.id }} {{ especie.nombre_general }}
-                                        <span class="badge" style="float: right">{{ especie.categoria.nombre }}</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                {% endfor %}
-
-            </div>
-        {% else %}
-            <div class="row">
-                <h4>No se encontraron Especies.</h4>
-            </div>
-        {% endif %}
     </div>
 {% endblock %}

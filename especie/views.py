@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core import serializers
@@ -150,3 +152,11 @@ def logout_user(request):
         "form": form,
     }
     return render(request, 'especie/login.html', context)
+
+
+@csrf_exempt
+def listado_categorias(request):
+    categorias = Categoria.objects.all().order_by('-id')
+    cat_map = dict((str(x.pk), x.nombre) for x in categorias)
+    return HttpResponse(json.dumps(cat_map))
+
