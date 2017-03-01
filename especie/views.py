@@ -40,6 +40,11 @@ def listado_especies_rest(request, nombre_categoria=None):
     return HttpResponse(serializers.serialize("json", especies))
 
 
+@csrf_exempt
+def listado_comentarios_especie_rest(request, id_especie):
+    return HttpResponse(serializers.serialize("json", Comentario.objects.filter(especie_id=id_especie).order_by('-id')))
+
+
 def detalle_especie(request, id_especie):
     especie = Especie.objects.get(pk=id_especie)
     if request.method == 'POST':
